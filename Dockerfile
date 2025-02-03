@@ -11,20 +11,5 @@ RUN apt-get update && apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev
     pecl install xdebug && \
     docker-php-ext-enable xdebug
 
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
-
-# Copy the Laravel project files into the container
-COPY . .
-
-# Install Laravel dependencies
-RUN composer install --no-dev --optimize-autoloader
-
-# Set the Apache document root
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
-
-# Expose the port Apache runs on
-EXPOSE 80
-
-# Start Apache in the foreground
-CMD ["apache2-foreground"]
+# Set the ServerName to avoid Apache warning
+RUN echo 
